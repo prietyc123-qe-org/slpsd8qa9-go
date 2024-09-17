@@ -19,8 +19,11 @@ spec:
 
               words=("hello" "hi")
 
+              # create the pipeline
+              oc create -f https://github.com/prietyc123-qe-org/slpsd8qa9-go/blob/main/integration-tests/pipelines/echo-test-pipeline.yaml
+
               # Loop through the array and print each element
               for word in "${words[@]}"
               do
-                tkn start pipeline echo-test-pipeline --param TEST="$word"
+                tkn pipeline start echo-test-pipeline --param TEST="$word"
               done
