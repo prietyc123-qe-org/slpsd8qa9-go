@@ -1,4 +1,3 @@
----
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -9,20 +8,27 @@ metadata:
     appstudio.openshift.io/application: simple-goapp
 spec:
   tasks:
-    - name: echo-test
+    - name: create-echo-test-pipeline
       taskSpec:
         steps:
-          - name: test
+          - name: create-pipeline
             image: quay.io/openshift-pipeline/ci
             script: |
               #!/usr/bin/env bash
-
-              words=("hello" "hi")
-
-              # create the pipeline
+              echo "Creating the echo-test-pipeline"
               oc create -f https://github.com/prietyc123-qe-org/slpsd8qa9-go/blob/main/integration-tests/pipelines/echo-test-pipeline.yaml
 
-              # Loop through the array and print each element
+    - name: start-echo-test-pipeline
+      runAfter: 
+        - create-echo-test-pipeline
+      taskSpec:
+        steps:
+          - name: start-pipeline
+            image: quay.io/openshift-pipeline/ci
+            script: |
+              #!/usr/bin/env bash
+              words=("hello" "hi")
+              # Start the created pipeline with different parameters
               for word in "${words[@]}"
               do
                 tkn pipeline start echo-test-pipeline --param TEST="$word"
