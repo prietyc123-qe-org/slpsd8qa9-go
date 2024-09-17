@@ -22,5 +22,5 @@ spec:
               # Loop through the array and print each element
               for word in "${words[@]}"
               do
-                tkn start pipeline echo-multi-pipeline -p TEST:"$word"
+                tkn start pipeline echo-test-pipeline -p TEST:"$word"
               done
