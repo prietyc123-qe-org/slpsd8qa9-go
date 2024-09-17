@@ -13,7 +13,7 @@ spec:
       taskSpec:
         steps:
           - name: test
-            image: quay.io/konflux-ci/appstudio-utils:ab6b0b8e40e440158e7288c73aff1cf83a2cc8a9@sha256:24179f0efd06c65d16868c2d7eb82573cce8e43533de6cea14fec3b7446e0b14
+            image: quay.io/openshift-pipeline/ci
             script: |
               #!/usr/bin/env bash
 
@@ -22,5 +22,5 @@ spec:
               # Loop through the array and print each element
               for word in "${words[@]}"
               do
-                tkn start pipeline echo-test-pipeline -p TEST:"$word"
+                tkn start pipeline echo-test-pipeline --param TEST="$word"
               done
