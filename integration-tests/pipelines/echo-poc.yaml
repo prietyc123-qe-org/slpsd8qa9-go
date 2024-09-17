@@ -31,5 +31,5 @@ spec:
               # Start the created pipeline with different parameters
               for word in "${words[@]}"
               do
-                tkn pipeline start -f https://raw.githubusercontent.com/prietyc123-qe-org/slpsd8qa9-go/main/integration-tests/pipelines/echo-test-pipeline.yaml --param TEST="$word"
+                tkn pipeline start -f https://raw.githubusercontent.com/prietyc123-qe-org/slpsd8qa9-go/main/integration-tests/pipelines/echo-test-pipeline.yaml -s dynamicplr --param TEST="$word"
               done
