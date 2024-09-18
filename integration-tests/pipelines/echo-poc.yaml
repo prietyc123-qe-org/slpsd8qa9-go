@@ -8,19 +8,7 @@ metadata:
     appstudio.openshift.io/application: simple-goapp
 spec:
   tasks:
-    # - name: create-echo-test-pipeline
-    #   taskSpec:
-    #     steps:
-    #       - name: create-pipeline
-    #         image: quay.io/openshift-pipeline/ci
-    #         script: |
-    #           #!/usr/bin/env bash
-    #           echo "Creating the echo-test-pipeline"
-    #           oc create -f https://github.com/prietyc123-qe-org/slpsd8qa9-go/blob/main/integration-tests/pipelines/echo-test-pipeline.yaml
-
     - name: start-echo-test-pipeline
-      # runAfter: 
-      #   - create-echo-test-pipeline
       taskSpec:
         steps:
           - name: start-pipeline
@@ -31,5 +19,5 @@ spec:
               # Start the created pipeline with different parameters
               for word in "${words[@]}"
               do
-                tkn pipeline start -f https://raw.githubusercontent.com/prietyc123-qe-org/slpsd8qa9-go/main/integration-tests/pipelines/echo-test-pipeline.yaml -s dynamicplr --param TEST="$word"
+                tkn pipeline start -f https://raw.githubusercontent.com/prietyc123-qe-org/slpsd8qa9-go/main/integration-tests/pipelines/echo-test-pipeline.yaml --param TEST="$word"
               done
