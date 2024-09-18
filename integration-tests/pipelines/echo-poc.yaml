@@ -1,5 +1,5 @@
 apiVersion: tekton.dev/v1beta1
-kind: Pipeline
+kind: PipelineRun
 metadata:
   name: echo-poc-pipeline
   namespace: pkumari-tenant
@@ -7,29 +7,31 @@ metadata:
     appstudio.openshift.io/component: slpsd8qa9-go
     appstudio.openshift.io/application: simple-goapp
 spec:
-  tasks:
-    # - name: create-echo-test-pipeline
-    #   taskSpec:
-    #     steps:
-    #       - name: create-pipeline
-    #         image: quay.io/openshift-pipeline/ci
-    #         script: |
-    #           #!/usr/bin/env bash
-    #           echo "Creating the echo-test-pipeline"
-    #           oc create -f https://raw.githubusercontent.com/prietyc123-qe-org/slpsd8qa9-go/main/integration-tests/pipelines/echo-test-pipeline.yaml
+  serviceAccountName: dynamicplr
+  pipelineSpec:
+    tasks:
+      # - name: create-echo-test-pipeline
+      #   taskSpec:
+      #     steps:
+      #       - name: create-pipeline
+      #         image: quay.io/openshift-pipeline/ci
+      #         script: |
+      #           #!/usr/bin/env bash
+      #           echo "Creating the echo-test-pipeline"
+      #           oc create -f https://github.com/prietyc123-qe-org/slpsd8qa9-go/blob/main/integration-tests/pipelines/echo-test-pipeline.yaml
 
-    - name: start-echo-test-pipeline
-      # runAfter: 
-      #   - create-echo-test-pipeline
-      taskSpec:
-        steps:
-          - name: start-pipeline
-            image: quay.io/openshift-pipeline/ci
-            script: |
-              #!/usr/bin/env bash
-              words=("hello" "hi")
-              # Start the created pipeline with different parameters
-              for word in "${words[@]}"
-              do
-                tkn pipeline start -f https://raw.githubusercontent.com/prietyc123-qe-org/slpsd8qa9-go/main/integration-tests/pipelines/echo-test-pipeline.yaml -s dynamicplr --param TEST="$word"
-              done
+      - name: start-echo-test-pipeline
+        # runAfter: 
+        #   - create-echo-test-pipeline
+        taskSpec:
+          steps:
+            - name: start-pipeline
+              image: quay.io/openshift-pipeline/ci
+              script: |
+                #!/usr/bin/env bash
+                words=("hello" "hi")
+                # Start the created pipeline with different parameters
+                for word in "${words[@]}"
+                do
+                  tkn pipeline start -f https://raw.githubusercontent.com/prietyc123-qe-org/slpsd8qa9-go/main/integration-tests/pipelines/echo-test-pipeline.yaml -s dynamicplr --param TEST="$word"
+                done
